@@ -10,36 +10,50 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: 🔧 Install lftp
-      run: sudo apt-get update && sudo apt-get install -y lftp
-      
-    - name: 📂 Upload with retries
-      run: |
-        MAX_RETRIES=3
-        RETRY_COUNT=0
+    - name: 📤 Upload HTML files first
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: "./"
+        server-dir: "./ux-test/"
+        protocol: ftps
+        security: loose
+        include: "*.html,*.php"
         
-        while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-          echo "Attempt $((RETRY_COUNT+1)) of $MAX_RETRIES"
-          
-          lftp -e "
-            set ftp:ssl-force true;
-            set ssl:verify-certificate false;
-            set net:timeout 60;
-            set net:max-retries 3;
-            set net:reconnect-interval-base 10;
-            open -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_SERVER }};
-            mkdir -p ux-test;
-            cd ux-test;
-            mirror -R -v -P 2 . ./;
-            quit
-          " && break
-          
-          RETRY_COUNT=$((RETRY_COUNT+1))
-          if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
-            echo "Upload failed. Retrying in 15 seconds..."
-            sleep 15
-          else
-            echo "Upload failed after $MAX_RETRIES attempts."
-            exit 1
-          fi
-        done
+    - name: 📤 Upload CSS files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: "./"
+        server-dir: "./ux-test/"
+        protocol: ftps
+        security: loose
+        include: "*.css"
+        
+    - name: 📤 Upload JS files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: "./"
+        server-dir: "./ux-test/"
+        protocol: ftps
+        security: loose
+        include: "*.js"
+        
+    - name: 📤 Upload remaining files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: "./"
+        server-dir: "./ux-test/"
+        protocol: ftps
+        security: loose
+        exclude: "*.html,*.php,*.css,*.js"
