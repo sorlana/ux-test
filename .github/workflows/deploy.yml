@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: 📤 Simple FTP Deploy
+    - name: 📤 Deploy with explicit FTPS
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
         server: ${{ secrets.FTP_SERVER }}
@@ -18,4 +18,7 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: "./"
         server-dir: "./uxtest/"
-        # Минимальные настройки
+        protocol: ftps
+        port: 21
+        security: loose
+        passive: true
