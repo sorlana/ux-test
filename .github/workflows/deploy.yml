@@ -1,29 +1,27 @@
-name: 🚀 Deploy ux-test to Beget
+name: 🚀 Deploy to Beget
 
 on:
   push:
     branches: [ master ]
 
 jobs:
-  web-deploy:
-    name: 🎉 Deploy to ux-test folder
+  deploy:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v3
-
-    - name: 📂 Sync files to ux-test
+    - uses: actions/checkout@v3
+    
+    - name: 📤 Upload files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./
-        server-dir: ./public_html/ux-test/
-        protocol: ftps 
-        port: 21  
-        timeout: 300000  
-        dangerous-clean-slate: false
-        retries: 3            
-        retry-delay: 10000 
+        local-dir: "./"
+        server-dir: "./ux-test/"
+        protocol: ftps
+        port: 21
+        timeout: 300000
+        retries: 3
+        retry-delay: 15000
+        security: implicit
+        ftps-pasv: true
