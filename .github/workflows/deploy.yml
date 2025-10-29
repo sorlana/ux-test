@@ -1,4 +1,4 @@
-name: 🚀 Deploy ux-test to Beget
+name: 🚀 Deploy uxtest to Beget
 
 on:
   push:
@@ -6,21 +6,21 @@ on:
 
 jobs:
   web-deploy:
-    name: 🎉 Deploy to ux-test folder
+    name: 🎉 Deploy to uxtest folder
     runs-on: ubuntu-latest
     
     steps:
     - name: 🚚 Get latest code
       uses: actions/checkout@v3
 
-    - name: 📂 Sync files to ux-test
+    - name: 📂 Sync files to uxtest
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./
-        server-dir: ./public_html/ux-test/
+        server-dir: ./uxtest/
         protocol: ftps 
         port: 21  
         timeout: 300000  
