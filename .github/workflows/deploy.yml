@@ -23,5 +23,5 @@ jobs:
         timeout: 300000
         retries: 3
         retry-delay: 15000
-        security: implicit
+        security: loose
         ftps-pasv: true
