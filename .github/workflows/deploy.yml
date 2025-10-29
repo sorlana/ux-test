@@ -10,17 +10,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: 📤 Upload all files via FTP
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+    - name: 📤 Deploy via FTP (alternative)
+      uses: sebastianpopp/ftp-action@v2.0.0
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
+        host: ${{ secrets.FTP_SERVER }}
+        user: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: "./"
-        server-dir: "./ux-test/"
-        protocol: ftp  # Изменено с ftps на ftp
-        security: loose
-        # Увеличиваем таймауты для стабильности
-        timeout: 120000
-        # Отключаем проверку сертификата
-        ftp-skip-verify: true
+        localDir: "./"
+        remoteDir: "./ux-test/"
+        # Дополнительные параметры для стабильности
+        args: "--parallel=10 --delay"
