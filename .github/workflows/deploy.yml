@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: 📤 Upload all files via FTPS (Implicit)
+    - name: 📤 Upload all files via FTPS
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: ${{ secrets.FTP_SERVER }}
@@ -19,6 +19,5 @@ jobs:
         local-dir: "./"
         server-dir: "./ux-test/"
         protocol: ftps
-        security: implicit
+        security: strict  # Используем strict вместо implicit
         port: 21
-        timeout: 120000
