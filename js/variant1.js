@@ -23,13 +23,31 @@ function initVariant1() {
           unit: cells[1].querySelector(".txt")?.textContent.trim() || "",
           quantity: cells[2].querySelector(".txt")?.textContent.trim() || "0",
           rate: cells[3].querySelector(".txt")?.textContent.trim() || "0",
-          // currency: cells[4].querySelector('.txt')?.textContent.trim() || "", // Столбец Валюта скрыт в просмотре
           total: cells[4].querySelector(".txt")?.textContent.trim() || "0", // В режиме просмотра это Сумма (5-й столбец)
           vat: cells[5].querySelector(".txt")?.textContent.trim() || "", // В режиме просмотра это НДС (6-й столбец)
           contractor: cells[6].querySelector(".txt")?.textContent.trim() || "", // В режиме просмотра это Контрагент (7-й столбец)
           contract: cells[7].querySelector(".txt")?.textContent.trim() || "", // В режиме просмотра это Договор (8-й столбец)
         };
         row.dataset.originalData = JSON.stringify(originalData);
+
+        // --- НОВОЕ: Определяем исходную валюту из ячейки "Ставка" ---
+        const originalRateText = originalData.rate; // Например, "25 000,00 ₽"
+        const currencySymbolMatch = originalRateText.match(/[\₽\$\¥\€\₸]/);
+        let originalCurrency = "Рубль"; // Значение по умолчанию
+        if (currencySymbolMatch) {
+          const symbol = currencySymbolMatch[0];
+          // Сопоставляем символ с названием валюты
+          const symbolMap = {
+            "₽": "Рубль",
+            $: "Доллар",
+            "¥": "Юань",
+            "€": "Евро",
+            "₸": "Тенге",
+          };
+          originalCurrency = symbolMap[symbol] || "Рубль";
+        }
+        // Сохраняем найденную валюту в dataset для использования при создании select
+        row.dataset.originalCurrency = originalCurrency;
 
         // 2. Обновляем ячейки на редактируемые элементы
         // 0: Услуга
@@ -187,13 +205,28 @@ function initVariant1() {
         // Значит, "Валюта" вставляется ПЕРЕД текущую ячейку 4 (ранее Сумма).
         const currencyCell = document.createElement("div");
         currencyCell.className = "table-cell";
+        // --- ИСПРАВЛЕНО: Используем originalCurrency для установки selected ---
+        const currencyValue = row.dataset.originalCurrency || "Рубль";
         currencyCell.innerHTML = `
           <select class="fm-select currency-select">
-            <option value="Рубль" selected>Рубль</option>
-            <option value="Доллар">Доллар</option>
-            <option value="Юань">Юань</option>
-            <option value="Евро">Евро</option>
-            <option value="Тенге">Тенге</option>
+            <option value="" ${
+              !currencyValue || currencyValue === "" ? "selected" : ""
+            }>-- Выберите --</option>
+            <option value="Рубль" ${
+              currencyValue === "Рубль" ? "selected" : ""
+            }>Рубль</option>
+            <option value="Доллар" ${
+              currencyValue === "Доллар" ? "selected" : ""
+            }>Доллар</option>
+            <option value="Юань" ${
+              currencyValue === "Юань" ? "selected" : ""
+            }>Юань</option>
+            <option value="Евро" ${
+              currencyValue === "Евро" ? "selected" : ""
+            }>Евро</option>
+            <option value="Тенге" ${
+              currencyValue === "Тенге" ? "selected" : ""
+            }>Тенге</option>
           </select>
         `;
         row.insertBefore(currencyCell, cells[4]); // Вставляем перед НДС (ранее 5-й, стал 6-й, сумма была 4-й, стала 5-й)
@@ -207,7 +240,6 @@ function initVariant1() {
       const headerCells = table.querySelectorAll(".table-header .table-cell");
       if (headerCells.length > 4) {
         headerCells[4].querySelector(".txt").textContent = "Валюта";
-        // headerCells[5].style.display = 'none'; // Скрываем заголовок "Сумма", если нужно
       }
       editBtn.innerHTML =
         '<span class="material-icons m24">save</span> Сохранить';
@@ -326,7 +358,6 @@ function initVariant1() {
       if (headerCells.length > 4) {
         headerCells[4].querySelector(".txt").textContent = "Сумма";
       }
-      // --- ИСПРАВЛЕНО: Кнопка меняется на "Изменить" ---
       editBtn.innerHTML =
         '<span class="material-icons m24">edit</span> Изменить';
     }
@@ -412,9 +443,11 @@ function initVariant1() {
     const newCells = newRow.querySelectorAll(".table-cell:not(.action-cell)");
     const currencyCell = document.createElement("div");
     currencyCell.className = "table-cell";
+    // --- ИСПРАВЛЕНО: Для новой строки по умолчанию "-- Выберите --" ---
     currencyCell.innerHTML = `
       <select class="fm-select currency-select">
-        <option value="Рубль" selected>Рубль</option>
+        <option value="" selected>-- Выберите --</option>
+        <option value="Рубль">Рубль</option>
         <option value="Доллар">Доллар</option>
         <option value="Юань">Юань</option>
         <option value="Евро">Евро</option>

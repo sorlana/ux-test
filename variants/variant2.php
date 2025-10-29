@@ -4,6 +4,7 @@
         <button id="edit2" class="button-action">
             <span class="material-icons m24">edit</span> Изменить
         </button>
+        <!-- Кнопка "Добавить строку" теперь всегда видна в HTML -->
         <button id="addRow2" class="add-row-btn button-action">
             <span class="material-icons m24">add</span> Добавить строку
         </button>

@@ -35,15 +35,15 @@
                 min="0"
                 style="width: 100px"
             />
-            <label>Сумма:</label>
-            <input
-                id="addTotal"
-                type="number"
-                class="fm"
-                value="0"
-                style="width: 150px"
-                readonly
-            />
+            <!-- ИЗМЕНЕНО: Поле "Сумма" заменено на "Валюта" -->
+            <label>Валюта:</label>
+            <select id="addTotal" class="fm-select" style="width: 150px;">
+                <option value="Рубль" selected>Рубль</option>
+                <option value="Доллар">Доллар</option>
+                <option value="Юань">Юань</option>
+                <option value="Евро">Евро</option>
+                <option value="Тенге">Тенге</option>
+            </select>
             <label>НДС:</label>
             <select id="addVat" class="fm-select">
                 <option value="">-- Выберите НДС --</option>
