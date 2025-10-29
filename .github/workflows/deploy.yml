@@ -9,17 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-
-    - name: 🔧 Install lftp
-      run: sudo apt-get update && sudo apt-get install -y lftp
-
-    - name: 📂 Upload files with lftp
-      run: |
-        lftp -e "
-          set ftp:ssl-force true;
-          set ssl:verify-certificate false;
-          set cmd:fail-exit true;
-          open -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ftps://${{ secrets.FTP_SERVER }};
-          mirror -R -v --parallel=10 ./ /uxtest/;
-          bye
-        "
+    
+    - name: 📤 Simple FTP Deploy
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        user: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: "./"
+        server-dir: "./uxtest/"
+        # Минимальные настройки
