@@ -17,11 +17,8 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: "./"
-        server-dir: "./uxtest/"
+        server-dir: "./public_html/uxtest/"
         protocol: ftps
         port: 21
         security: loose
-        passive: true
-        timeout: 60000
-        dry-run: false
         log-level: verbose
