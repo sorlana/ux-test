@@ -8,52 +8,19 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
-    - name: 📤 Upload HTML files first
-      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+    - name: 📤 Upload all files via FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: "./"
         server-dir: "./ux-test/"
-        protocol: ftps
+        protocol: ftp  # Изменено с ftps на ftp
         security: loose
-        include: "*.html,*.php"
-        
-    - name: 📤 Upload CSS files
-      uses: SamKirkland/FTP-Deploy-Action@4.3.0
-      with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: "./"
-        server-dir: "./ux-test/"
-        protocol: ftps
-        security: loose
-        include: "*.css"
-        
-    - name: 📤 Upload JS files
-      uses: SamKirkland/FTP-Deploy-Action@4.3.0
-      with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: "./"
-        server-dir: "./ux-test/"
-        protocol: ftps
-        security: loose
-        include: "*.js"
-        
-    - name: 📤 Upload remaining files
-      uses: SamKirkland/FTP-Deploy-Action@4.3.0
-      with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: "./"
-        server-dir: "./ux-test/"
-        protocol: ftps
-        security: loose
-        exclude: "*.html,*.php,*.css,*.js"
+        # Увеличиваем таймауты для стабильности
+        timeout: 120000
+        # Отключаем проверку сертификата
+        ftp-skip-verify: true
