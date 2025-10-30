@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8" />
     <title>DevExtreme UX: Редактирование таблицы с удалением</title>
-    <link rel="icon" href="./fav2.ico">
+    <link rel="icon" href="./fav2.ico" id="favicon">
+    <script>
+        // Определяем среду выполнения
+        if (window.location.hostname === 'localhost' || 
+            window.location.hostname.includes('local')) {
+            // Локальная среда
+            document.getElementById('favicon').href = './fav2-local.ico';
+        } else {
+            // Продакшен среда
+            document.getElementById('favicon').href = './fav2.ico';
+        }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
@@ -36,7 +47,7 @@
     <?php include 'popup_add.php'; ?>
 
     <!-- Подключаем JS файлы -->
-    <script src="./js/common.js"></script>
+    <script src="./js/common.js"></>
     <script src="./js/variant1.js"></script>
     <script src="./js/variant2.js"></script>
     <script src="./js/variant3.js"></script>
