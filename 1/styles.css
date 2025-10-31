@@ -28,8 +28,8 @@ h1 {
 button {
   font-family: "Montserrat";
   display: flex;
-  height: var(--button-buttonL-height, 36px);
-  padding: 0 var(--button-buttonL-l-r, 14px);
+  height: 36px;
+  padding: 0 14px;
   justify-content: center;
   align-items: center;
   gap: 4px;

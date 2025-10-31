@@ -1,12 +1,12 @@
 // variant2.js
 
+// --- ИСПРАВЛЕНО: initVariant2 использует глобальные функции из common.js ---
 let isEditingMode2 = false;
 
 function initVariant2() {
   const table = document.getElementById("table2");
   const editBtn = document.getElementById("edit2");
   // Убираем прямую работу с addBtn.style.display из JavaScript, так как она теперь всегда видна в HTML
-
   if (!table || !editBtn) return;
 
   editBtn.onclick = () => {
@@ -250,12 +250,10 @@ function initVariant2() {
       rows.forEach((row) => {
         // 1. Получаем сохраненные исходные данные
         const originalData = JSON.parse(row.dataset.originalData || "{}");
-
         // 2. Находим редактируемые ячейки в текущем состоянии (в режиме редактирования)
         const allCurrentCells = Array.from(
           row.querySelectorAll(".table-cell:not(.action-cell)")
         );
-
         // 3. Извлекаем значения из редактируемых полей (select, input)
         // Порядок в allCurrentCells в режиме редактирования:
         // 0: Услуга (select)
@@ -290,8 +288,7 @@ function initVariant2() {
         const contractValue =
           allCurrentCells[8].querySelector("select")?.value ||
           originalData.contract; // Ячейка "Договор" в редактировании
-
-        const currencySymbol = currencySymbols[currencyValue] || "₽";
+        const currencySymbol = currencySymbols[currencyValue] || "₽"; // Используем глобальный currencySymbols
         const calculatedTotalValue = quantityValue * rateInputValue;
         const rateValueWithCurrency =
           rateInputValue.toLocaleString("ru-RU", { maximumFractionDigits: 2 }) +
@@ -366,6 +363,6 @@ function initVariant2() {
 
   // Кнопка "Добавить строку" по-прежнему открывает попап
   document.getElementById("addRow2").addEventListener("click", () => {
-    openAddPopup("variant2");
+    openAddPopup("variant2"); // Вызывает глобальную функцию из common.js
   });
 }

@@ -1,4 +1,4 @@
-// common.js
+// popup_add.js
 // Объект сокращений валют
 const currencySymbols = {
   Рубль: "₽",
@@ -7,45 +7,6 @@ const currencySymbols = {
   Евро: "€",
   Тенге: "₸",
 };
-
-// Управление вариантами
-const variants = ["variant1", "variant2", "variant3", "variant4"];
-
-function loadVariant(variantId) {
-  if (!variants.includes(variantId)) {
-    console.error("Неверный идентификатор варианта:", variantId);
-    return;
-  }
-  fetch(`variants/${variantId}.php`)
-    .then((response) => response.text())
-    .then((html) => {
-      document.getElementById("content").innerHTML = html;
-      initializeVariant(variantId);
-    })
-    .catch((err) => console.error("Ошибка загрузки варианта:", err));
-}
-
-function initializeVariant(variantId) {
-  document.querySelectorAll(".controls button").forEach((btn) => {
-    btn.classList.remove("active");
-  });
-  document.getElementById(`btn-${variantId}`).classList.add("active");
-
-  switch (variantId) {
-    case "variant1":
-      initVariant1();
-      break;
-    case "variant2":
-      initVariant2();
-      break;
-    case "variant3":
-      initVariant3();
-      break;
-    case "variant4":
-      initVariant4();
-      break;
-  }
-}
 
 // Общая функция удаления строки
 function deleteRow(button) {
@@ -59,14 +20,8 @@ function deleteRow(button) {
 let currentVariantForAdd = null;
 function openAddPopup(variant) {
   currentVariantForAdd = variant;
-
-  // --- ВСЕГДА меняем "Сумма" на "Валюта" в popup ---
-  // const useCurrencySelect = (currentVariantForAdd === "variant2" || currentVariantForAdd === "variant4"); // Было
-  // const useCurrencySelect = true; // Стало - всегда использовать select валюты
-
   // --- ИСПРАВЛЕНО: Обновляем label и содержимое addTotal ---
   const totalLabel = document.querySelector('label[for="addTotal"]');
-  // if (useCurrencySelect) { // Было
   // Меняем label на "Валюта"
   if (totalLabel) {
     totalLabel.textContent = "Валюта:";
@@ -81,14 +36,6 @@ function openAddPopup(variant) {
     <option value="Тенге">Тенге</option>
   `;
   popupCurrency.value = "Рубль";
-  // } else { // Было
-  //   // Возвращаем label к "Сумма" для других вариантов (например, variant1)
-  //   if (totalLabel) {
-  //       totalLabel.textContent = "Сумма:";
-  //   }
-  //   // Сбрасываем addTotal на input с 0 для других вариантов
-  //   document.getElementById("addTotal").value = 0;
-  // } // Было
 
   // --- Обновляем остальные поля в popup в соответствии с select из ТЗ ---
   const popupService = document.getElementById("addService");
@@ -103,7 +50,6 @@ function openAddPopup(variant) {
     <option value="Оплата тарифа по РЖД">Оплата тарифа по РЖД</option>
   `;
   popupService.value = "";
-
   const popupUnit = document.getElementById("addUnit");
   popupUnit.innerHTML = `
     <option value="">-- Выберите --</option>
@@ -116,7 +62,6 @@ function openAddPopup(variant) {
     <option value="Контейнер">Контейнер</option>
   `;
   popupUnit.value = ""; // Исправлено: теперь по умолчанию "-- Выберите --"
-
   const popupVat = document.getElementById("addVat");
   popupVat.innerHTML = `
     <option value="">-- Выберите --</option>
@@ -130,7 +75,6 @@ function openAddPopup(variant) {
     <option value="НДС 20%">НДС 20%</option>
   `;
   popupVat.value = "НДС 0%";
-
   const popupContractor = document.getElementById("addContractor");
   popupContractor.innerHTML = `
     <option value="">-- Выберите --</option>
@@ -145,7 +89,6 @@ function openAddPopup(variant) {
     <option value="ИП Петров И.П.">ИП Петров И.П.</option>
   `;
   popupContractor.value = "";
-
   const popupContract = document.getElementById("addContract");
   popupContract.innerHTML = `
     <option value="">-- Выберите --</option>
@@ -154,15 +97,12 @@ function openAddPopup(variant) {
   `;
   popupContract.value = "";
   popupContract.disabled = true; // --- ИСПРАВЛЕНО: Поле "Договор" теперь disabled ---
-
   document.getElementById("addQuantity").value = 1;
   document.getElementById("addRate").value = 0;
   // document.getElementById("addTotal").value = 0; // Не нужно устанавливать для select валюты
-
   document.getElementById("popupOverlayAdd").style.display = "block";
   document.getElementById("addPopup").style.display = "block";
 }
-
 function closeAddPopup() {
   document.getElementById("popupOverlayAdd").style.display = "none";
   document.getElementById("addPopup").style.display = "none";
@@ -174,7 +114,6 @@ function closeAddPopup() {
   // Сбрасываем addTotal на input с 0 на случай, если он был select
   document.getElementById("addTotal").value = 0;
 }
-
 function saveNewRowFromPopup() {
   // Получаем значения из select
   const service = document.getElementById("addService").value.trim();
@@ -188,7 +127,6 @@ function saveNewRowFromPopup() {
   // --- ИСПРАВЛЕНО: Получаем значение валюты из addTotal (select) ---
   // Теперь addTotal всегда используется как select валюты
   const currency = document.getElementById("addTotal").value.trim(); // Берем из поля "Валюта" (ранее "Сумма")
-
   if (!service) {
     alert("⚠️ Укажите услугу!");
     return;
@@ -208,6 +146,11 @@ function saveNewRowFromPopup() {
     addNewRowToTable2(rowData);
   } else if (currentVariantForAdd === "variant4") {
     const table = document.getElementById("table4");
+    if (!table) {
+      console.error("Таблица table4 не найдена для добавления строки.");
+      closeAddPopup(); // Закрываем попап, если таблица не найдена
+      return;
+    }
     const newRow = document.createElement("div");
     newRow.className = "table-row";
     // --- ИСПРАВЛЕНО: Рассчитываем сумму и используем валюту для отображения ---
@@ -238,14 +181,25 @@ function saveNewRowFromPopup() {
           </div>
         `;
     table.appendChild(newRow);
+    closeAddPopup();
+    alert("✅ Новая строка добавлена!");
+  } else {
+    // Если currentVariantForAdd не 2 или 4, закрываем попап и сообщаем об ошибке
+    console.error(
+      "Неизвестный вариант для добавления строки:",
+      currentVariantForAdd
+    );
+    closeAddPopup();
   }
-  closeAddPopup();
-  alert("✅ Новая строка добавлена!");
 }
-
 // Общая функция для добавления строки в Вариант 2
 function addNewRowToTable2(data) {
   const table = document.getElementById("table2");
+  if (!table) {
+    console.error("Таблица table2 не найдена для добавления строки.");
+    closeAddPopup(); // Закрываем попап, если таблица не найдена
+    return;
+  }
   const newRow = document.createElement("div");
   newRow.className = "table-row";
   // Проверяем, находится ли таблица в режиме редактирования
@@ -310,8 +264,6 @@ function addNewRowToTable2(data) {
               <option value="7ПЛ ООО">7ПЛ ООО</option>
               <option value="AA TRANSPORT SERVİS ООО">AA TRANSPORT SERVİS ООО</option>
               <option value="ABSERON EXPRESS ООО">ABSERON EXPRESS ООО</option>
-              <option value="ООО Рога и Копыта">ООО Рога и Копыта</option>
-              <option value="ИП Петров И.П.">ИП Петров И.П.</option>
             </select>
           </div>
           <div class="table-cell">
@@ -378,11 +330,6 @@ function addNewRowToTable2(data) {
         `;
     table.appendChild(newRow);
   }
+  closeAddPopup();
+  alert("✅ Новая строка добавлена!");
 }
-
-// Инициализация при загрузке страницы
-document.addEventListener("DOMContentLoaded", function () {
-  const urlParams = new URLSearchParams(window.location.search);
-  const initialVariant = urlParams.get("variant") || "variant1";
-  initializeVariant(initialVariant);
-});
