@@ -54,15 +54,7 @@ button {
   background: #dd4416;
   cursor: pointer;
 }
-.button-secondary {
-  border: 1px solid transparent;
-  background: #fff1ed;
-  color: #ff4f1a;
-}
-.button-secondary {
-  background: #ffe4dc;
-  cursor: pointer;
-}
+
 button.active {
   background: #c94819;
 }
@@ -250,4 +242,53 @@ button.active {
   background: #95a5a6;
   padding: 10px 20px;
   margin-right: 10px;
+}
+
+.button-secondary {
+  border: 1px solid transparent;
+  background: #fff1ed;
+  color: #ff4f1a;
+}
+.button-secondary {
+  background: #ffe4dc;
+  cursor: pointer;
+}
+
+/* Стили для строки редактирования */
+.table-row-edit {
+  display: contents; /* Позволяет строке вести себя как её содержимое */
+}
+
+/* Стили для ячейки редактирования */
+.table-cell-edit {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.table-form {
+  display: flex;
+  gap: 10px;
+  padding-bottom: 10px;
+}
+
+.table-wrap {
+  padding: 20px;
+  border: 1px solid #c6c6c6;
+  margin: 3px 0;
+}
+
+/* Стили для лейбла в ячейке редактирования */
+.form-label {
+  font-size: 0.8em;
+  color: #666;
+  margin-bottom: 2px;
+}
+
+/* Стили для элементов ввода в ячейке редактирования */
+.table-cell-edit input,
+.table-cell-edit select {
+  width: 100%;
+  padding: 4px;
+  box-sizing: border-box;
 }

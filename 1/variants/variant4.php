@@ -1,5 +1,5 @@
 <div id="variant4" class="variant-panel active">
-    <h3>Вариант 4: Редактирование по строкам + Popup для добавления</h3>
+    <h3>Вариант 4: Form Edit + Popup для добавления</h3>
     <div style="display: flex; margin-bottom: 8px">
         <button id="addRow4" class="add-row-btn button-action">
             <span class="material-icons m24">add</span> Добавить строку
