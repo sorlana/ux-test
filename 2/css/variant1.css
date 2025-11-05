@@ -1,0 +1,27 @@
+.select2-results__group {
+  padding-left: 32px !important;
+}
+
+/* Добавляем border всем группам, кроме первой */
+.select2-results > ul > li:not(:first-child) .select2-results__group {
+  border-top: 1px solid #aaa;
+}
+
+.select2-results__group::before {
+  font-family: "Material Icons";
+  content: "\e2c8";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 18px;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}

@@ -1,0 +1,10 @@
+.select2-results__group {
+  padding-left: 16px !important;
+  font-weight: 700;
+}
+
+.select2-container--default .select2-results__option--group {
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  margin: 6px !important;
+}

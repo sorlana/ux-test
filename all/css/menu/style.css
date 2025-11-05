@@ -1,0 +1,612 @@
+.layout {
+  z-index: 1;
+}
+
+.layout .content {
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.sidebar {
+  color: #c5c9e1;
+  overflow-x: hidden !important;
+  position: relative;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+}
+.sidebar:hover::-webkit-scrollbar-thumb {
+  background-color: #e1e3ed;
+}
+.sidebar::-webkit-scrollbar {
+  width: 3px;
+  background-color: #fafbfb;
+}
+.sidebar .image-wrapper {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  display: none;
+}
+.sidebar .image-wrapper > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.sidebar.has-bg-image .image-wrapper {
+  display: block;
+}
+.sidebar .sidebar-layout {
+  height: auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: #fafbfb;
+  z-index: 2;
+}
+.sidebar .sidebar-layout .sidebar-header {
+  height: auto;
+  display: flex;
+  align-items: center;
+  padding: 12px 12px 0 12px;
+}
+.sidebar .sidebar-layout .sidebar-header > span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.sidebar .sidebar-layout .sidebar-content {
+  flex-grow: 1;
+  padding: 10px 0;
+}
+@keyframes swing {
+  0%,
+  30%,
+  50%,
+  70%,
+  100% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(10deg);
+  }
+  40% {
+    transform: rotate(-10deg);
+  }
+  60% {
+    transform: rotate(5deg);
+  }
+  80% {
+    transform: rotate(-5deg);
+  }
+}
+.layout .sidebar .menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.layout .sidebar .menu .menu-header {
+  font-weight: 600;
+  padding: 10px 25px;
+  font-size: 0.8em;
+  letter-spacing: 2px;
+  transition: opacity 0.3s;
+  opacity: 0.5;
+}
+.layout .sidebar .menu .menu-item {
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+}
+.layout .sidebar .menu .menu-item a {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 9px;
+  color: #101010;
+}
+.menu-level-2 {
+  padding-left: 28px !important;
+}
+.menu-level-3 {
+  padding-left: 28px !important;
+}
+.menu-level-2,
+.menu-level-3 {
+  font-weight: 400 !important;
+}
+.menu-level-2:hover,
+.menu-level-3:hover {
+  color: #ba2b00 !important;
+}
+.layout .sidebar .menu .menu-item a .menu-icon {
+  font-size: 1.2rem;
+  width: 35px;
+  min-width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  display: inline-block;
+  margin-right: 10px;
+  border-radius: 2px;
+  transition: color 0.3s;
+  color: #99a1b7;
+}
+.layout .sidebar .menu .menu-item a .menu-icon i {
+  display: inline-block;
+}
+.layout .sidebar .menu .menu-item a .menu-icon .material-symbols-outlined {
+  /* Убедимся, что Material Symbols отцентрированы */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.layout .sidebar .menu .menu-item a .menu-title {
+  font-size: 14px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-grow: 1;
+  transition: color 0.3s;
+}
+.layout .sidebar .menu .menu-item a .menu-prefix,
+.layout .sidebar .menu .menu-item a .menu-suffix {
+  display: inline-block;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+.wrap-badge {
+  display: flex !important;
+  padding: 5px !important;
+}
+/*.layout .sidebar .menu .menu-item a:hover .menu-title {
+  color: #dee2ec;
+}*/
+.layout .sidebar .menu .menu-item a:hover .menu-icon {
+  color: #ff4f1a;
+}
+.layout .sidebar .menu .menu-item a:hover .menu-icon i,
+.layout
+  .sidebar
+  .menu
+  .menu-item
+  a:hover
+  .menu-icon
+  .material-symbols-outlined {
+  animation: swing ease-in-out 0.5s 1 alternate;
+}
+/*.layout .sidebar .menu .menu-item a:hover::after {
+  border-color: #dee2ec !important;
+}*/
+.layout .sidebar .menu .menu-item.sub-menu {
+  position: relative;
+}
+.layout .sidebar .menu .menu-item.sub-menu > a::after {
+  content: "";
+  transition: transform 0.3s;
+  border-right: 2px solid #99a1b7;
+  border-bottom: 2px solid #99a1b7;
+  width: 5px;
+  height: 5px;
+  transform: rotate(-45deg);
+}
+.layout .sidebar .menu .menu-item.sub-menu > .sub-menu-list {
+  padding-left: 20px;
+  display: none;
+  overflow: hidden;
+  z-index: 999;
+}
+.layout .sidebar .menu .menu-item.sub-menu.open > a .menu-icon {
+  color: #ff4f1a;
+}
+.layout .sidebar .menu .menu-item.sub-menu.open > a::after {
+  transform: rotate(45deg);
+}
+/*.layout .sidebar .menu .menu-item.active > a .menu-title {
+  color: #dee2ec;
+}
+.layout .sidebar .menu .menu-item.active > a::after {
+  border-color: #dee2ec;
+}*/
+.layout .sidebar .menu .menu-item.active {
+  border-left: 3px solid #ff4f1a;
+  border-right: 3px solid transparent;
+  background-color: #fff;
+}
+.layout .sidebar .menu .menu-item.active > a .menu-icon {
+  color: #ff4f1a;
+}
+.layout .sidebar .menu > ul > .sub-menu > .sub-menu-list {
+  background-color: #fff;
+}
+.layout .sidebar .menu.icon-shape-circle .menu-item a .menu-icon,
+.layout .sidebar .menu.icon-shape-rounded .menu-item a .menu-icon,
+.layout .sidebar .menu.icon-shape-square .menu-item a .menu-icon {
+  background-color: #fff;
+}
+.layout .sidebar .menu.icon-shape-circle .menu-item a .menu-icon {
+  border-radius: 50%;
+}
+.layout .sidebar .menu.icon-shape-rounded .menu-item a .menu-icon {
+  border-radius: 4px;
+}
+.layout .sidebar .menu.icon-shape-square .menu-item a .menu-icon {
+  border-radius: 0;
+}
+.layout
+  .sidebar:not(.collapsed)
+  .menu
+  > ul
+  > .menu-item.sub-menu
+  > .sub-menu-list {
+  visibility: visible !important;
+  position: static !important;
+  transform: translate(0, 0) !important;
+}
+.layout .sidebar.collapsed .menu > ul > .menu-header {
+  opacity: 0;
+}
+.layout .sidebar.collapsed .menu > ul > .menu-item > a .menu-prefix,
+.layout .sidebar.collapsed .menu > ul > .menu-item > a .menu-suffix {
+  opacity: 0;
+  width: 0 !important;
+}
+/* --- Изменено: Правила для элементов sub-menu С подменю (sub-menu-list) --- */
+.layout
+  .sidebar.collapsed
+  .menu
+  > ul
+  > .menu-item.sub-menu:has(> .sub-menu-list)
+  > a
+  .menu-title {
+  opacity: 0; /* Скрываем заголовок только у элементов с подменю */
+}
+.layout
+  .sidebar.collapsed
+  .menu
+  > ul
+  > .menu-item.sub-menu:has(> .sub-menu-list)
+  > a::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  background-color: currentcolor;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  border: none;
+  transform: translateY(-50%);
+  color: #99a1b7;
+}
+.layout
+  .sidebar.collapsed
+  .menu
+  > ul
+  > .menu-item.sub-menu:has(> .sub-menu-list)
+  > a:hover::after {
+  background-color: #dee2ec;
+}
+.layout
+  .sidebar.collapsed
+  .menu
+  > ul
+  > .menu-item.sub-menu:has(> .sub-menu-list)
+  > .sub-menu-list {
+  transition: none !important;
+  width: auto;
+  margin-left: 3px !important;
+  border-radius: 4px;
+  display: block !important;
+  padding-left: 0 !important;
+  padding-right: 20px;
+  -webkit-box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.24);
+  -moz-box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.24);
+  box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.24);
+}
+.layout
+  .sidebar.collapsed
+  .menu
+  > ul
+  > .menu-item.sub-menu:has(> .sub-menu-list)
+  a {
+  justify-content: center; /* Центрируем содержимое */
+  padding: 0; /* Убираем горизонтальный отступ */
+}
+.layout
+  .sidebar.collapsed
+  .menu
+  > ul
+  > .menu-item.sub-menu:has(> .sub-menu-list)
+  a
+  .menu-level-2,
+.layout
+  .sidebar.collapsed
+  .menu
+  > ul
+  > .menu-item.sub-menu:has(> .sub-menu-list)
+  a
+  .menu-level-3 {
+  padding-left: 20px !important;
+}
+.layout
+  .sidebar.collapsed
+  .menu
+  > ul
+  > .menu-item.sub-menu:has(> .sub-menu-list)
+  a
+  .menu-icon {
+  padding-left: 18px;
+  margin-right: 0; /* Убираем отступ у иконки */
+}
+/* --- Изменено: Правила для элементов menu-item.sub-menu БЕЗ подменю (sub-menu-list) --- */
+.layout
+  .sidebar.collapsed
+  .menu
+  > ul
+  > .menu-item.sub-menu:not(:has(> .sub-menu-list))
+  a {
+  justify-content: center; /* Центрируем содержимое */
+  padding: 0; /* Убираем горизонтальный отступ */
+}
+.layout
+  .sidebar.collapsed
+  .menu
+  > ul
+  > .menu-item.sub-menu:not(:has(> .sub-menu-list))
+  a
+  .menu-icon {
+  margin-right: 0; /* Убираем отступ у иконки */
+}
+.layout
+  .sidebar.collapsed
+  .menu
+  > ul
+  > .menu-item.sub-menu:not(:has(> .sub-menu-list))
+  a
+  .menu-title {
+  display: none; /* Скрываем текст */
+}
+/* УБРАНО: .layout .sidebar.collapsed .menu > ul > .menu-item.sub-menu:not(:has(> .sub-menu-list)) a::after - индикатор больше не добавляется для элементов без подменю */
+/* --- Конец изменений --- */
+.layout .sidebar.collapsed .menu > ul > .menu-item.active > a::after {
+  background-color: #dee2ec;
+}
+.layout .sidebar.has-bg-image .menu.icon-shape-circle .menu-item a .menu-icon,
+.layout .sidebar.has-bg-image .menu.icon-shape-rounded .menu-item a .menu-icon,
+.layout .sidebar.has-bg-image .menu.icon-shape-square .menu-item a .menu-icon {
+  background-color: rgba(11, 26, 44, 0.6);
+}
+.layout
+  .sidebar.has-bg-image:not(.collapsed)
+  .menu
+  > ul
+  > .sub-menu
+  > .sub-menu-list {
+  background-color: transparent;
+}
+.layout.rtl .sidebar .menu .menu-item a .menu-icon {
+  margin-left: 10px;
+  margin-right: 0;
+}
+.layout.rtl .sidebar .menu .menu-item.sub-menu > a::after {
+  transform: rotate(135deg);
+}
+.layout.rtl .sidebar .menu .menu-item.sub-menu > .sub-menu-list {
+  padding-left: 0;
+  padding-right: 20px;
+}
+.layout.rtl .sidebar .menu .menu-item.sub-menu.open > a::after {
+  transform: rotate(45deg);
+}
+.layout.rtl .sidebar.collapsed .menu > ul > .menu-item.sub-menu a::after {
+  right: auto;
+  left: 10px;
+}
+.layout.rtl
+  .sidebar.collapsed
+  .menu
+  > ul
+  > .menu-item.sub-menu
+  > .sub-menu-list {
+  margin-left: -3px !important;
+}
+.active-submenu {
+  color: #ff4f1a;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: "Montserrat", sans-serif;
+  color: #101010;
+  font-size: 0.9rem;
+}
+a {
+  text-decoration: none;
+}
+@media (max-width: 576px) {
+  #btn-collapse {
+    display: none;
+  }
+}
+.layout .sidebar .pro-sidebar-logo {
+  display: flex;
+  align-items: center;
+}
+.layout .sidebar .pro-sidebar-logo > div {
+  width: 35px;
+  min-width: 35px;
+  height: 35px;
+  min-height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.layout .sidebar .sidebar-collapser {
+  position: fixed;
+  z-index: 100;
+  transition: left, right, 0.3s;
+  left: 280px;
+  top: 64px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  transform: translateX(50%);
+  z-index: 111;
+  cursor: pointer;
+  color: #101010;
+}
+.layout .sidebar .sidebar-collapser::before {
+  content: "menu";
+  font-family: "Material Icons";
+  display: inline-block;
+  vertical-align: middle;
+}
+.layout .sidebar.collapsed .sidebar-collapser {
+  left: 60px;
+}
+.layout .sidebar.collapsed .sidebar-collapser::before {
+  content: "menu_open";
+  font-family: "Material Icons";
+  display: inline-block;
+  vertical-align: middle;
+  transform: rotate(180deg);
+}
+.badge {
+  display: inline-block;
+  padding: 0.5em 0.4em;
+  font-size: 55%;
+  font-weight: 700;
+  line-height: 55%;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: center;
+  border-radius: 0.25rem;
+  color: #fff;
+  background-color: #6c757d;
+}
+.badge.primary {
+  background-color: #ff4f1a;
+}
+.badge.secondary {
+  background-color: #079b0b;
+}
+.sidebar-toggler {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+}
+.social-links a {
+  margin: 0 10px;
+  color: #3f4750;
+}
+
+/* --- Новые правила для управления активными подменю при сворачивании/разворачивании (Уточненная логика) --- */
+/* При РАЗВЕРНУТОМ меню (.sidebar:not(.collapsed)), отображаем .sub-menu-list, который является НЕПОСРЕДСТВЕННЫМ потомком (.active >) .menu-item.sub-menu.active */
+/* Это означает, что отобразятся только подменю первого уровня вложенности внутри активного пункта */
+/* Подменю более глубоких уровней, находящиеся внутри НЕ активных пунктов, останутся скрытыми */
+.layout
+  .sidebar:not(.collapsed)
+  .menu
+  > ul
+  > .menu-item.sub-menu.active
+  > .sub-menu-list {
+  display: block !important; /* Перекрывает display: none */
+  visibility: visible !important; /* Перекрывает возможный hidden */
+  position: static !important; /* Перекрывает возможный absolute/fixed из popper */
+  opacity: 1 !important; /* Убедимся, что видимо */
+  height: auto !important; /* Перекрывает height: 0 если применяется */
+  overflow: visible !important; /* Позволим содержимому отображаться */
+  /* Наследуем стили из .sidebar:not(.collapsed) .menu > ul > .menu-item.sub-menu > .sub-menu-list */
+  visibility: visible !important;
+  position: static !important;
+  transform: translate(0, 0) !important;
+}
+
+/* При СВЕРНУТОМ меню (.sidebar.collapsed), скрываем .sub-menu-list, который является НЕПОСРЕДСТВЕННЫМ потомком (.active >) .menu-item.sub-menu.active */
+/* Это противоположно логике для развернутого состояния */
+.layout
+  .sidebar.collapsed
+  .menu
+  > ul
+  > .menu-item.sub-menu.active
+  > .sub-menu-list {
+  display: none !important; /* Скрывает подменю */
+  visibility: hidden !important; /* Дополнительно скрывает */
+  height: 0 !important; /* Убирает высоту */
+  padding-top: 0 !important; /* Убирает отступы */
+  padding-bottom: 0 !important; /* Убирает отступы */
+  margin-top: 0 !important; /* Убирает отступы */
+  margin-bottom: 0 !important; /* Убирает отступы */
+  overflow: hidden !important; /* Скрывает содержимое */
+  /* Отменяем стили, которые применяются для :hover */
+  padding-left: 20px !important; /* Возвращаем к исходному значению или 0 */
+  padding-right: 20px !important; /* Возвращаем к исходному значению или 0 */
+  transition: none !important; /* Убираем анимацию, чтобы сразу скрылось */
+  width: 0 !important; /* Убираем ширину */
+  margin-left: 0 !important; /* Убираем отступ */
+  border-radius: 0 !important; /* Убираем скругление */
+  -webkit-box-shadow: none !important; /* Убираем тень */
+  -moz-box-shadow: none !important; /* Убираем тень */
+  box-shadow: none !important; /* Убираем тень */
+}
+
+/* Дополнительно: Если внутри активного пункта есть *другой* активный подпункт, его подменю тоже должно отображаться в развернутом состоянии */
+/* Это правило обрабатывает случай .active > .sub-menu-list > .menu-item.sub-menu.active > .sub-menu-list */
+/* Однако, оно может конфликтовать с логикой JS для .open. */
+/* Пока оставим базовое правило для первого уровня. */
+/* Если потребуется отображать вложенные .active подменю, добавьте: */
+/*
+.layout .sidebar:not(.collapsed) .menu > ul > .menu-item.sub-menu.active .menu-item.sub-menu.active > .sub-menu-list {
+  display: block !important;
+  visibility: visible !important;
+  position: static !important;
+  opacity: 1 !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+*/
+/* Аналогично, для свернутого состояния: */
+/*
+.layout .sidebar.collapsed .menu > ul > .menu-item.sub-menu.active .menu-item.sub-menu.active > .sub-menu-list {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  overflow: hidden !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  transition: none !important;
+  width: 0 !important;
+  margin-left: 0 !important;
+  border-radius: 0 !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+*/
+/* Пока оставим только базовое правило для непосредственного потомка. */
